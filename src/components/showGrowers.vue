@@ -56,7 +56,4 @@ export default {
 </script>
 
 <style>
-table.table{
-    margin: 20px auto;
-}
 </style>
