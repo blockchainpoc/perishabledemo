@@ -39,27 +39,24 @@
               Assets
             </a>
             <div class="navbar-dropdown is-boxed">
-              <a class="navbar-item" href="/documentation/overview/start/">
-                Shipment
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
-                Contract
-              </a>
+              <router-link class='navbar-item' to='/shipments/all'>
+                Shipments
+              </router-link>
+              <router-link class='navbar-item' to='/contracts/all'>
+                Contracts
+              </router-link>
             </div>
           </div>
-          <div class="navbar-item has-dropdown is-hoverable">
+          <!--<div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link" href="/documentation/overview/start/">
               Transactions
             </a>
             <div class="navbar-dropdown is-boxed">
               <a class="navbar-item" href="/documentation/overview/start/">
-                Setup Demo
-              </a>
-              <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
-                Shipment Received
+                Run Setup Demo
               </a>
             </div>
-          </div>
+          </div>-->
         </div>
 
         <!--<div class="navbar-end">

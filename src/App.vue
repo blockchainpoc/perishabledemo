@@ -22,6 +22,10 @@ import showImporters from './components/showImporters.vue';
 import createImporter from './components/createImporter.vue';
 import showShippers from './components/showShippers.vue';
 import createShipper from './components/createShipper.vue';
+import showShipments from './components/showShipments.vue';
+import showContracts from './components/showContracts.vue';
+import createContract from './components/createContract.vue';
+import createShipment from './components/createShipment.vue';
 
 export default {
   components:{
@@ -29,7 +33,13 @@ export default {
     'app-footer': Footer,
     'app-content': Landing,
     'add-blog': addBlog,
-    'show-growers': showGrowers
+    'show-growers': showGrowers,
+    'show-importers': showImporters,
+    'show-shippers': showShippers,
+    'show-shipments': showShipments,
+    'show-contracts': showContracts,
+    'create-contract': createContract,
+    'create-shipment': createShipment,
   },
   data () {
     return {

@@ -9,6 +9,18 @@ Vue.config.productionTip = false
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
+Vue.filter('remove_grower_class', function(value){
+  return value.replace('resource:org.acme.shipping.perishable.Grower#', '');
+});
+
+Vue.filter('remove_shipper_class', function(value){
+  return value.replace('resource:org.acme.shipping.perishable.Shipper#', '');
+});
+
+Vue.filter('remove_importer_class', function(value){
+  return value.replace('resource:org.acme.shipping.perishable.Importer#', '');
+});
+
 const router = new VueRouter({
   routes: Routes,
   mode: 'history'
