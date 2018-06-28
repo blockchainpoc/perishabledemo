@@ -7,7 +7,7 @@
     <app-footer :title="title"></app-footer>-->
     <app-header :title="title" @changeTitle="updateTitle($event)"></app-header>
     <router-view></router-view>
-    <app-footer :title="title"></app-footer>
+    <app-footer></app-footer>
   </div>
 </template>
 

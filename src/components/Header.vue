@@ -5,7 +5,7 @@
         <!--<a class="navbar-item" href="https://bulma.io">
           <img src="https://static.wixstatic.com/media/4ff6ec_05be454893074357bb89860514e906d7~mv2.png/v1/fill/w_117,h_80,al_c,usm_0.66_1.00_0.01/4ff6ec_05be454893074357bb89860514e906d7~mv2.png" alt="Klassifai" width="117" height="80">
         </a>-->
-        <a class="navbar-item">Klassifai - {{title}}</a>
+        <figure class="navbar-item image"><img src="/img/flat_logo_2.png"></figure>
         <!--<div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
           <span></span>
           <span></span>

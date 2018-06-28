@@ -1,6 +1,6 @@
 <template>
   <footer>
-      <p>{{copyright}} - {{title}}</p>
+      <p>{{copyright}}</p>
   </footer>
 </template>
 
