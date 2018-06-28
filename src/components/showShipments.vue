@@ -17,6 +17,7 @@
             </div>
         </section>
         <table class="table">
+            <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
             <thead>
                 <tr>
                     <th>ShipmentID</th>
@@ -56,28 +57,33 @@ const bc_api_url = "http://54.92.218.210:3000/api/";
 export default {
     data () {
         return {
-           shipments: [] 
+           shipments: [],
+           isLoading: false
         }
     },
     methods: {
         markShipmentReceived(shp){
-            alert("going to mark this shipment received")
+            //alert("going to mark this shipment received")
             console.log(shp);
+            this.isLoading = true;
             this.$http.post(bc_api_url + '/ShipmentReceived',{
                 "$class": "org.acme.shipping.perishable.ShipmentReceived",
                 "shipment": shp.shipmentId
             }).then(function(data){
                 console.log("$$$ successfully marked shipment as received:");
                 console.log(data.body);
-                this.growerCreated = true
+                this.growerCreated = true;
+                this.isLoading = false;
             });
         }
     },
     created(){
+        this.isLoading = true;
         this.$http.get(bc_api_url + '/Shipment').then(function(data){
             console.log("$$$ this is the post data:");
             console.log(data.body);
             this.shipments = data.body.slice(0,10);
+            this.isLoading = false;
         })
     }
 }

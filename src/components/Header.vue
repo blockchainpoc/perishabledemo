@@ -111,8 +111,8 @@ export default {
 </script>
 
 <style>
-header{
+/*header{
     background: lightgreen;
     padding: 10px;
-}
+}*/
 </style>

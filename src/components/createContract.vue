@@ -17,10 +17,11 @@
             </div>
         </section>
         <form>
+            <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
             <div class="field">
                 <label class="label">Select Grower</label>
                 <div class="select">
-                    <select v-model="contractValues.selectedGrower">
+                    <select v-model="contractValues.selectedGrower" :disabled="contractCreated">
                         <option v-for="grower in growerOptions" v-bind:value="grower.email">
                             {{ grower.email }} from {{ grower.address.country}}
                         </option>
@@ -30,7 +31,7 @@
             <div class="field">
                 <label class="label">Select Importer</label>
                 <div class="select">
-                    <select v-model="contractValues.selectedImporter">
+                    <select v-model="contractValues.selectedImporter" :disabled="contractCreated">
                         <option v-for="importer in importerOptions" v-bind:value="importer.email">
                             {{ importer.email }} from {{ importer.address.country}}
                         </option>
@@ -40,7 +41,7 @@
             <div class="field">
                 <label class="label">Select Shipper</label>
                 <div class="select">
-                    <select v-model="contractValues.selectedShipper">
+                    <select v-model="contractValues.selectedShipper" :disabled="contractCreated">
                         <option v-for="shipper in shipperOptions" v-bind:value="shipper.email">
                             {{ shipper.email }} from {{ shipper.address.country}}
                         </option>
@@ -56,7 +57,7 @@
             <div class="field">
                 <label class="label">Unit Price of Goods Being Shipped</label>
                 <div class="control">
-                    <input type="text" v-model="contractValues.setUnitPrice">
+                    <input type="text" v-model="contractValues.setUnitPrice" :disabled="contractCreated">
                 </div>
             </div>
             <!--<div class="field">
@@ -65,7 +66,7 @@
                     <input class="input" type="text" placeholder="Country" v-model.lazy="shipper.country">
                 </div>
             </div>-->
-            <button class="button is-primary" @click.prevent="createContract">
+            <button class="button is-primary" @click.prevent="createContract" :disabled="contractCreated">
                 Create Contract
             </button>
         </form>
@@ -93,30 +94,45 @@ export default {
                 maxPenaltyFactor: 0.1
             },
             contractCreated: false,
+            isLoading: false
         }
     },
     methods: {
         createContract(){
-            this.$http.post(bc_api_url + '/Contract',{
-                "$class": "org.acme.shipping.perishable.Contract",
-                "contractId": this.contractValues.newContractID,
-                "grower": "resource:org.acme.shipping.perishable.Grower#" + this.contractValues.selectedGrower,
-                "shipper": "resource:org.acme.shipping.perishable.Shipper#" + this.contractValues.selectedShipper,
-                "importer": "resource:org.acme.shipping.perishable.Importer#" + this.contractValues.selectedImporter,
-                "arrivalDateTime": this.contractValues.dueDate,
-                "unitPrice": parseFloat(this.contractValues.setUnitPrice),
-                "minTemperature": this.contractValues.minTemperature,
-                "maxTemperature": this.contractValues.maxTemperature,
-                "minPenaltyFactor": this.contractValues.minPenaltyFactor,
-                "maxPenaltyFactor": this.contractValues.maxPenaltyFactor
-            }).then(function(data){
-                console.log("$$$ this is the post data:");
-                console.log(data.body);
-                this.contractCreated = true;
-                window.location.href = window.location.origin + '/contracts/all';
-            });
-            console.log("5##### this is the contract values:");
-            console.log(this.contractValues);
+            if(this.contractValues.selectedGrower.length > 0 && this.contractValues.selectedShipper.length > 0 && this.contractValues.selectedImporter.length > 0 && parseFloat(this.contractValues.setUnitPrice) > 0){
+                this.isLoading = true;
+                this.$http.post(bc_api_url + '/Contract',{
+                    "$class": "org.acme.shipping.perishable.Contract",
+                    "contractId": this.contractValues.newContractID,
+                    "grower": "resource:org.acme.shipping.perishable.Grower#" + this.contractValues.selectedGrower,
+                    "shipper": "resource:org.acme.shipping.perishable.Shipper#" + this.contractValues.selectedShipper,
+                    "importer": "resource:org.acme.shipping.perishable.Importer#" + this.contractValues.selectedImporter,
+                    "arrivalDateTime": this.contractValues.dueDate,
+                    "unitPrice": parseFloat(this.contractValues.setUnitPrice),
+                    "minTemperature": this.contractValues.minTemperature,
+                    "maxTemperature": this.contractValues.maxTemperature,
+                    "minPenaltyFactor": this.contractValues.minPenaltyFactor,
+                    "maxPenaltyFactor": this.contractValues.maxPenaltyFactor
+                }).then(function(data){
+                    console.log("$$$ this is the post data:");
+                    console.log(data.body);
+                    this.contractCreated = true;
+                    this.isLoading = false;
+                    this.$toast.open({
+                        message: 'Successfully created new contract!',
+                        type: 'is-success'
+                    });
+                    setTimeout(()=>(window.location.href = window.location.origin + '/contracts/all'), 1000)
+                });
+                console.log("5##### this is the contract values:");
+                console.log(this.contractValues);
+            }
+            else{
+                this.$toast.open({
+                    message: "Unable to create contract with empty details!",
+                    type: 'is-danger'
+                })
+            }
         }
     },
     created(){

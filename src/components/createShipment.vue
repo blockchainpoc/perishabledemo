@@ -17,10 +17,11 @@
             </div>
         </section>
         <form>
+            <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
             <div class="field">
                 <label class="label">Select Shipment Type</label>
                 <div class="select">
-                    <select v-model="shipmentValues.type">
+                    <select v-model="shipmentValues.type" :disabled="shipmentCreated">
                         <option v-for="type in shipmentTypeOptions">
                             {{ type }}
                         </option>
@@ -30,7 +31,7 @@
             <div class="field">
                 <label class="label">Select Shipment Status</label>
                 <div class="select">
-                    <select v-model="shipmentValues.status">
+                    <select v-model="shipmentValues.status" :disabled="shipmentCreated">
                         <option v-for="status in shipmentStatusOptions">
                             {{ status }}
                         </option>
@@ -40,20 +41,20 @@
             <div class="field">
                 <label class="label">Unit Count</label>
                 <div class="control">
-                    <input type="text" v-model="shipmentValues.unitCount">
+                    <input type="text" v-model="shipmentValues.unitCount" :disabled="shipmentCreated">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Attached Contract</label>
                 <div class="select">
-                    <select v-model="shipmentValues.linkedContractID">
+                    <select v-model="shipmentValues.linkedContractID" :disabled="shipmentCreated">
                         <option v-for="contract in availableContracts">
                             {{ contract.contractId }}
                         </option>
                     </select>
                 </div>
             </div>
-            <button class="button is-primary" @click.prevent="createShipment">
+            <button class="button is-primary" @click.prevent="createShipment" :disabled="shipmentCreated">
                 Create Shipment
             </button>
         </form>
@@ -75,26 +76,41 @@ export default {
             shipmentCreated: false,
             shipmentTypeOptions: ["BANANAS", "APPLES", "PEARS", "PEACHES", "COFFEE"],
             shipmentStatusOptions: ["CREATED", "IN_TRANSIT"],
-            availableContracts: []
+            availableContracts: [],
+            isLoading: false
         }
     },
     methods: {
         createShipment(){
-            this.$http.post(bc_api_url + '/Shipment',{
-                "$class": "org.acme.shipping.perishable.Shipment",
-                "shipmentId": this.shipmentValues.newShipmentID,
-                "type": this.shipmentValues.type,
-                "status": this.shipmentValues.status,
-                "unitCount": this.shipmentValues.unitCount,
-                "contract": "resource:org.acme.shipping.perishable.Contract#" + this.shipmentValues.linkedContractID
-            }).then(function(data){
-                console.log("$$$ this is the post data after creating shipment:");
-                console.log(data.body);
-                this.shipmentCreated = true
-                window.location.href = window.location.origin + '/shipments/all';
-            });
-            console.log("%%%% these are the shipment values;");
-            console.log(this.shipmentValues);
+            if(this.shipmentValues.type.length > 0 && this.shipmentValues.status.length > 0 && this.shipmentValues.unitCount > 0 && this.shipmentValues.linkedContractID.length > 0){
+                this.isLoading = true;
+                this.$http.post(bc_api_url + '/Shipment',{
+                    "$class": "org.acme.shipping.perishable.Shipment",
+                    "shipmentId": this.shipmentValues.newShipmentID,
+                    "type": this.shipmentValues.type,
+                    "status": this.shipmentValues.status,
+                    "unitCount": this.shipmentValues.unitCount,
+                    "contract": "resource:org.acme.shipping.perishable.Contract#" + this.shipmentValues.linkedContractID
+                }).then(function(data){
+                    console.log("$$$ this is the post data after creating shipment:");
+                    console.log(data.body);
+                    this.shipmentCreated = true
+                    this.isLoading = false;
+                    this.$toast.open({
+                        message: 'Successfully created new shipment!',
+                        type: 'is-success'
+                    });
+                    setTimeout(()=>(window.location.href = window.location.origin + '/shipments/all'), 1000)
+                });
+                console.log("%%%% these are the shipment values;");
+                console.log(this.shipmentValues);
+            }
+            else{
+                this.$toast.open({
+                    message: "Unable to create shipment with empty details!",
+                    type: 'is-danger'
+                })
+            }
         }
     },
     created(){

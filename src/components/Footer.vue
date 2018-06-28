@@ -26,7 +26,7 @@ footer{
     padding: 6px;
 }
 p{
-    color: lightgreen;
+    color: white;
     text-align: center;
 }
 </style>

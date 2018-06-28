@@ -17,6 +17,7 @@
             </div>
         </section>
         <table class="table">
+            <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
             <thead>
                 <tr>
                     <th>Email</th>
@@ -40,16 +41,19 @@ const bc_api_url = "http://54.92.218.210:3000/api/";
 export default {
     data () {
         return {
-           shippers: [] 
+           shippers: [],
+           isLoading: false
         }
     },
     methods: {
     },
     created(){
+        this.isLoading = true;
         this.$http.get(bc_api_url + '/Shipper').then(function(data){
             console.log("$$$ this is the post data:");
             console.log(data.body);
             this.shippers = data.body.slice(0,10);
+            this.isLoading = false;
         })
     }
 }

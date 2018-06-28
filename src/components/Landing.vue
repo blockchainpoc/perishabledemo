@@ -7,7 +7,7 @@
           </li>
       </ul>
       <button @click="deleteNinja">Delete Ninja</button>-->
-        <section class="hero is-success is-large">
+        <section class="hero is-dark is-bold is-large">
             <div class="hero-body">
                 <div class="container">
                 <h1 class="title">

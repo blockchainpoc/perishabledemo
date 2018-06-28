@@ -17,19 +17,20 @@
             </div>
         </section>
         <form>
+            <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
             <div class="field">
                 <label class="label">Email</label>
                 <div class="control">
-                    <input class="input" type="text" placeholder="Email address" v-model.lazy="shipper.email">
+                    <input class="input" type="text" placeholder="Email address" v-model.lazy="shipper.email" :disabled="shipperCreated">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Country</label>
                 <div class="control">
-                    <input class="input" type="text" placeholder="Country" v-model.lazy="shipper.country">
+                    <input class="input" type="text" placeholder="Country" v-model.lazy="shipper.country" :disabled="shipperCreated">
                 </div>
             </div>
-            <button class="button is-primary" @click.prevent="createShipper">
+            <button class="button is-primary" @click.prevent="createShipper" :disabled="shipperCreated">
                 Create Shipper
             </button>
         </form>
@@ -47,23 +48,39 @@ export default {
                 accountBalance: 0
             },
            shipperCreated: false,
+           isLoading: false
         }
     },
     methods: {
         createShipper(){
-            this.$http.post(bc_api_url + '/Shipper',{
-                "$class": "org.acme.shipping.perishable.Shipper",
-                "email": this.shipper.email,
-                "address": {
-                    "$class": "org.acme.shipping.perishable.Address",
-                    "country": this.shipper.country,
-                },
-                "accountBalance": this.shipper.accountBalance
-            }).then(function(data){
-                console.log("$$$ this is the post data:");
-                console.log(data.body);
-                this.shipperCreated = true
-            });
+            if(this.shipper.email.length > 0 && this.shipper.country.length > 0){
+                this.isLoading = true;
+                this.$http.post(bc_api_url + '/Shipper',{
+                    "$class": "org.acme.shipping.perishable.Shipper",
+                    "email": this.shipper.email,
+                    "address": {
+                        "$class": "org.acme.shipping.perishable.Address",
+                        "country": this.shipper.country,
+                    },
+                    "accountBalance": this.shipper.accountBalance
+                }).then(function(data){
+                    console.log("$$$ this is the post data:");
+                    console.log(data.body);
+                    this.shipperCreated = true
+                    this.isLoading = false;
+                    this.$toast.open({
+                            message: 'Successfully created new shipper!',
+                            type: 'is-success'
+                        });
+                    setTimeout(()=>(window.location.href = window.location.origin + '/shippers/all'), 1000)
+                });
+            }
+            else{
+                this.$toast.open({
+                    message: "Unable to create shipper with empty details!",
+                    type: 'is-danger'
+                })
+            }
         }
     }
 }
