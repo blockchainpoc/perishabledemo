@@ -42,6 +42,13 @@
                             </span>
                             <span>Mark Shipment Received</span>
                         </button>
+                        <br>
+                        <button @click="addTruckstop(shipment)" class="button is-warning">
+                            <span class="icon is-small">
+                                <i class="fas fa-truck"></i>
+                            </span>
+                            <span>Add Truck Stop</span>
+                        </button>
                     </td>
                     <td v-else-if="shipment.status == 'ARRIVED'">
                         <span class="tag is-success">Shipment Received</span>
@@ -75,6 +82,11 @@ export default {
                 this.growerCreated = true;
                 this.isLoading = false;
             });
+        },
+        addTruckstop(shp){
+            console.log('clicked add truck stop button for this shipment:');
+            console.log(shp);
+            window.location.href = window.location.origin + "/shipments/"+shp.shipmentId+"/add/truckstop";
         }
     },
     created(){

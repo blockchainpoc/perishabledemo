@@ -8,6 +8,7 @@ import showShipments from './components/showShipments.vue';
 import showContracts from './components/showContracts.vue';
 import createContract from './components/createContract.vue';
 import createShipment from './components/createShipment.vue';
+import addTruckstop from './components/addTruckstop.vue';
 import landing from './components/Landing.vue';
 
 export default [
@@ -21,5 +22,6 @@ export default [
     {path: "/contracts/all", component: showContracts},
     {path: "/contracts/create", component: createContract},
     {path: "/shipments/create", component: createShipment},
+    {path: "/shipments/:shipmentID/add/truckstop", component: addTruckstop},
     {path: "/", component: landing}
 ]

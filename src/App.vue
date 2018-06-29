@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-header :title="title" @changeTitle="updateTitle($event)"></app-header>
-    <router-view style="min-height:700px;"></router-view>
+    <router-view style="min-height:600px;"></router-view>
     <app-footer></app-footer>
   </div>
 </template>
