@@ -11,16 +11,16 @@ Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(Buefy)
 
-Vue.filter('remove_grower_class', function(value){
-  return value.replace('resource:org.acme.shipping.perishable.Grower#', '');
+Vue.filter('remove_farmer_class', function(value){
+  return value.replace('resource:org.acme.shipping.perishable.Farmer#', '');
 });
 
-Vue.filter('remove_shipper_class', function(value){
-  return value.replace('resource:org.acme.shipping.perishable.Shipper#', '');
+Vue.filter('remove_trucker_class', function(value){
+  return value.replace('resource:org.acme.shipping.perishable.Trucker#', '');
 });
 
-Vue.filter('remove_importer_class', function(value){
-  return value.replace('resource:org.acme.shipping.perishable.Importer#', '');
+Vue.filter('remove_receiver_class', function(value){
+  return value.replace('resource:org.acme.shipping.perishable.Receiver#', '');
 });
 
 const router = new VueRouter({

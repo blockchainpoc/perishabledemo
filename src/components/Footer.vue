@@ -6,12 +6,6 @@
 
 <script>
 export default {
-    props: {
-        title:{
-            type:String,
-            required: true
-        }
-    },
     data () {
         return {
         copyright: 'Copyright 2018 Klassifai'

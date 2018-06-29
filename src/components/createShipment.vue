@@ -74,7 +74,7 @@ export default {
                 newShipmentID: ""
             },
             shipmentCreated: false,
-            shipmentTypeOptions: ["BANANAS", "APPLES", "PEARS", "PEACHES", "COFFEE"],
+            shipmentTypeOptions: ["TOMATOES","BANANAS","APPLES","PEARS","TEA","COFFEE"],
             shipmentStatusOptions: ["CREATED", "IN_TRANSIT"],
             availableContracts: [],
             isLoading: false

@@ -35,9 +35,9 @@
             <tbody>
                 <tr v-for="contract in contracts">
                     <td>{{contract.contractId}}</td>
-                    <td>{{contract.grower | remove_grower_class}}</td>
-                    <td>{{contract.shipper | remove_shipper_class}}</td>
-                    <td>{{contract.importer | remove_importer_class}}</td>
+                    <td>{{contract.farmer | remove_farmer_class}}</td>
+                    <td>{{contract.trucker | remove_trucker_class}}</td>
+                    <td>{{contract.receiver | remove_receiver_class}}</td>
                     <td>{{contract.arrivalDateTime}}</td>
                     <td>{{contract.unitPrice}}</td>
                     <td>{{contract.minTemperature}}</td>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-const bc_api_url = "http://54.92.218.210:3000/api/";
+const bc_api_url = "http://54.92.218.210:3000/api";
 export default {
     data () {
         return {

@@ -1,16 +1,16 @@
 <template>
-    <div id="show-shippers">
+    <div id="show-receivers">
         <section class="section">
             <div class="container">
                 <h1 class="title is-1">
-                    All Shippers
+                    All Receivers
                 </h1>
                 <h2 class="subtitle">
-                    (org.acme.shipping.perishable.Shipper)
+                    (org.acme.shipping.perishable.Receiver)
                     <nav class="breadcrumb" aria-label="breadcrumbs">
                         <ul>
-                            <li><a href='/shippers/all'>List All</a></li>
-                            <li><a href='/shippers/create'>Create</a></li>
+                            <li><a href='/receivers/all'>List All</a></li>
+                            <li><a href='/receivers/create'>Create</a></li>
                         </ul>
                     </nav>
                 </h2>
@@ -26,10 +26,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="shipper in shippers">
-                    <td>{{shipper.email}}</td>
-                    <td>{{shipper.address['country']}}</td>
-                    <td>{{shipper.accountBalance}}</td>
+                <tr v-for="receiver in receivers">
+                    <td>{{receiver.email}}</td>
+                    <td>{{receiver.address['country']}}</td>
+                    <td>{{receiver.accountBalance}}</td>
                 </tr>
             </tbody>
         </table>
@@ -41,18 +41,18 @@ const bc_api_url = "http://54.92.218.210:3000/api/";
 export default {
     data () {
         return {
-           shippers: [],
-           isLoading: false
+           receivers: [],
+           isLoading: false,
         }
     },
     methods: {
     },
     created(){
         this.isLoading = true;
-        this.$http.get(bc_api_url + '/Shipper').then(function(data){
+        this.$http.get(bc_api_url + '/Receiver').then(function(data){
             console.log("$$$ this is the post data:");
             console.log(data.body);
-            this.shippers = data.body.slice(0,10);
+            this.receivers = data.body.slice(0,10);
             this.isLoading = false;
         })
     }

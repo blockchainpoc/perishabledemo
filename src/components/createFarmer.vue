@@ -1,16 +1,16 @@
 <template>
-    <div id="create-grower">
+    <div id="create-farmer">
         <section class="section">
             <div class="container">
                 <h1 class="title is-1">
-                    Create New Grower
+                    Create New Farmer
                 </h1>
                 <h2 class="subtitle">
-                    (org.acme.shipping.perishable.Grower)
+                    (org.acme.shipping.perishable.Farmer)
                     <nav class="breadcrumb" aria-label="breadcrumbs">
                         <ul>
-                            <li><a href='/growers/all'>List All</a></li>
-                            <li><a href='/growers/create'>Create</a></li>
+                            <li><a href='/farmers/all'>List All</a></li>
+                            <li><a href='/farmers/create'>Create</a></li>
                         </ul>
                     </nav>
                 </h2>
@@ -21,17 +21,17 @@
             <div class="field">
                 <label class="label">Email</label>
                 <div class="control">
-                    <input id="growerEmail" class="input" type="text" placeholder="Email address" v-model.lazy="grower.email" :disabled="growerCreated">
+                    <input id="farmerEmail" class="input" type="text" placeholder="Email address" v-model.lazy="farmer.email" :disabled="farmerCreated">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Country</label>
                 <div class="control">
-                    <input id="growerCountry" class="input" type="text" placeholder="Country" v-model.lazy="grower.country" :disabled="growerCreated">
+                    <input id="farmerCountry" class="input" type="text" placeholder="Country" v-model.lazy="farmer.country" :disabled="farmerCreated">
                 </div>
             </div>
-            <button id="btnCreateGrower" class="button is-primary" @click.prevent="createGrower" :disabled="growerCreated">
-                Create Grower
+            <button id="btnCreateFarmer" class="button is-primary" @click.prevent="createFarmer" :disabled="farmerCreated">
+                Create Farmer
             </button>
         </form>
     </div>
@@ -42,53 +42,53 @@ const bc_api_url = "http://54.92.218.210:3000/api";
 export default {
     data () {
         return {
-            grower:{
+            farmer:{
                 email: "",
                 country: "",
                 accountBalance: 0
             },
-           growerCreated: false,
+           farmerCreated: false,
            isLoading: false
         }
     },
     methods: {
-        createGrower(){
-            //console.log("this is hte grower email:");
-            //console.log(this.grower.email);
-            if(this.grower.email.length > 0 && this.grower.country.length > 0){
+        createFarmer(){
+            //console.log("this is hte farmer email:");
+            //console.log(this.farmer.email);
+            if(this.farmer.email.length > 0 && this.farmer.country.length > 0){
                 this.isLoading = true;
-                this.$http.post(bc_api_url + '/Grower',{
-                    "$class": "org.acme.shipping.perishable.Grower",
-                    "email": this.grower.email,
+                this.$http.post(bc_api_url + '/Farmer',{
+                    "$class": "org.acme.shipping.perishable.Farmer",
+                    "email": this.farmer.email,
                     "address": {
                         "$class": "org.acme.shipping.perishable.Address",
-                        "country": this.grower.country,
+                        "country": this.farmer.country,
                     },
-                    "accountBalance": this.grower.accountBalance
+                    "accountBalance": this.farmer.accountBalance
                 }).then(function(data){
                     console.log("$$$ this is the post data:");
                     console.log(data.body);
-                    this.growerCreated = true;
+                    this.farmerCreated = true;
                     this.isLoading = false;
                     this.$toast.open({
-                        message: 'Successfully created new grower!',
+                        message: 'Successfully created new farmer!',
                         type: 'is-success'
                     });
-                    setTimeout(()=>(window.location.href = window.location.origin + '/growers/all'), 1000)
+                    setTimeout(()=>(window.location.href = window.location.origin + '/farmers/all'), 1000)
                 });
             }
             else{
                 console.log('email is empty');
                 this.$toast.open({
-                    message: "Unable to create grower with empty details!",
+                    message: "Unable to create farmer with empty details!",
                     type: 'is-danger'
                 })
             }
         }
     },
     created(){
-        console.log("%%%%% this s the grower created value:");
-        console.log(this.growerCreated);
+        console.log("%%%%% this s the farmer created value:");
+        console.log(this.farmerCreated);
     }
 }
 </script>

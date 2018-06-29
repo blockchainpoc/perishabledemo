@@ -23,19 +23,19 @@
               Participants
             </a>
             <div class="navbar-dropdown is-boxed">
-              <router-link class='navbar-item' to='/growers/all'>
-                Grower
+              <router-link class='navbar-item' to='/farmers/all'>
+                Farmer
               </router-link>
-              <router-link class='navbar-item' to='/shippers/all'>
-                Shipper
+              <router-link class='navbar-item' to='/truckers/all'>
+                Trucker
               </router-link>
-              <router-link class='navbar-item' to='/importers/all'>
-                Importer
+              <router-link class='navbar-item' to='/receivers/all'>
+                Receiver
               </router-link>
             </div>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="/documentation/overview/start/">
+            <a class="navbar-link">
               Assets
             </a>
             <div class="navbar-dropdown is-boxed">

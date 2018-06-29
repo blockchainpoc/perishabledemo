@@ -1,16 +1,16 @@
 <template>
-    <div id="create-shipper">
+    <div id="create-receiver">
         <section class="section">
             <div class="container">
                 <h1 class="title is-1">
-                    Create New Shipper
+                    Create New Receiver
                 </h1>
                 <h2 class="subtitle">
-                    (org.acme.shipping.perishable.Shipper)
+                    (org.acme.shipping.perishable.Receiver)
                     <nav class="breadcrumb" aria-label="breadcrumbs">
                         <ul>
-                            <li><a href='/shippers/all'>List All</a></li>
-                            <li><a href='/shippers/create'>Create</a></li>
+                            <li><a href='/receivers/all'>List All</a></li>
+                            <li><a href='/receivers/create'>Create</a></li>
                         </ul>
                     </nav>
                 </h2>
@@ -21,63 +21,64 @@
             <div class="field">
                 <label class="label">Email</label>
                 <div class="control">
-                    <input class="input" type="text" placeholder="Email address" v-model.lazy="shipper.email" :disabled="shipperCreated">
+                    <input class="input" type="text" placeholder="Email address" v-model.lazy="receiver.email" :disabled="receiverCreated">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Country</label>
                 <div class="control">
-                    <input class="input" type="text" placeholder="Country" v-model.lazy="shipper.country" :disabled="shipperCreated">
+                    <input class="input" type="text" placeholder="Country" v-model.lazy="receiver.country" :disabled="receiverCreated">
                 </div>
             </div>
-            <button class="button is-primary" @click.prevent="createShipper" :disabled="shipperCreated">
-                Create Shipper
+            <button class="button is-primary" @click.prevent="createReceiver" :disabled="receiverCreated">
+                Create Receiver
             </button>
         </form>
     </div>
 </template>
 
 <script>
-const bc_api_url = "http://54.92.218.210:3000/api/";
+const bc_api_url = "http://54.92.218.210:3000/api";
 export default {
     data () {
         return {
-            shipper:{
+            receiver:{
                 email: "",
                 country: "",
                 accountBalance: 0
             },
-           shipperCreated: false,
+           receiverCreated: false,
            isLoading: false
         }
     },
     methods: {
-        createShipper(){
-            if(this.shipper.email.length > 0 && this.shipper.country.length > 0){
+        createReceiver(){
+            if(this.receiver.email.length > 0 && this.receiver.country.length > 0){
                 this.isLoading = true;
-                this.$http.post(bc_api_url + '/Shipper',{
-                    "$class": "org.acme.shipping.perishable.Shipper",
-                    "email": this.shipper.email,
+                this.$http.post(bc_api_url + '/Receiver',{
+                    "$class": "org.acme.shipping.perishable.Receiver",
+                    "email": this.receiver.email,
                     "address": {
                         "$class": "org.acme.shipping.perishable.Address",
-                        "country": this.shipper.country,
+                        "country": this.receiver.country,
                     },
-                    "accountBalance": this.shipper.accountBalance
+                    "accountBalance": this.receiver.accountBalance
                 }).then(function(data){
                     console.log("$$$ this is the post data:");
                     console.log(data.body);
-                    this.shipperCreated = true
+                    this.receiverCreated = true
                     this.isLoading = false;
                     this.$toast.open({
-                            message: 'Successfully created new shipper!',
+                            message: 'Successfully created new receiver!',
                             type: 'is-success'
                         });
-                    setTimeout(()=>(window.location.href = window.location.origin + '/shippers/all'), 1000)
+                    setTimeout(()=>(window.location.href = window.location.origin + '/receivers/all'), 1000)
                 });
             }
             else{
+                console.log('email is empty');
                 this.$toast.open({
-                    message: "Unable to create shipper with empty details!",
+                    message: "Unable to create receiver with empty details!",
                     type: 'is-danger'
                 })
             }

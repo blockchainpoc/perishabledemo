@@ -1,16 +1,16 @@
 <template>
-    <div id="show-importers">
+    <div id="show-truckers">
         <section class="section">
             <div class="container">
                 <h1 class="title is-1">
-                    All Importers
+                    All Truckers
                 </h1>
                 <h2 class="subtitle">
-                    (org.acme.shipping.perishable.Importer)
+                    (org.acme.shipping.perishable.Trucker)
                     <nav class="breadcrumb" aria-label="breadcrumbs">
                         <ul>
-                            <li><a href='/importers/all'>List All</a></li>
-                            <li><a href='/importers/create'>Create</a></li>
+                            <li><a href='/truckers/all'>List All</a></li>
+                            <li><a href='/truckers/create'>Create</a></li>
                         </ul>
                     </nav>
                 </h2>
@@ -26,10 +26,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="importer in importers">
-                    <td>{{importer.email}}</td>
-                    <td>{{importer.address['country']}}</td>
-                    <td>{{importer.accountBalance}}</td>
+                <tr v-for="trucker in truckers">
+                    <td>{{trucker.email}}</td>
+                    <td>{{trucker.address['country']}}</td>
+                    <td>{{trucker.accountBalance}}</td>
                 </tr>
             </tbody>
         </table>
@@ -41,18 +41,18 @@ const bc_api_url = "http://54.92.218.210:3000/api/";
 export default {
     data () {
         return {
-           importers: [],
-           isLoading: false,
+           truckers: [],
+           isLoading: false
         }
     },
     methods: {
     },
     created(){
         this.isLoading = true;
-        this.$http.get(bc_api_url + '/Importer').then(function(data){
+        this.$http.get(bc_api_url + '/Trucker').then(function(data){
             console.log("$$$ this is the post data:");
             console.log(data.body);
-            this.importers = data.body.slice(0,10);
+            this.truckers = data.body.slice(0,10);
             this.isLoading = false;
         })
     }

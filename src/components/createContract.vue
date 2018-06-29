@@ -19,31 +19,31 @@
         <form>
             <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
             <div class="field">
-                <label class="label">Select Grower</label>
+                <label class="label">Select Farmer</label>
                 <div class="select">
-                    <select v-model="contractValues.selectedGrower" :disabled="contractCreated">
-                        <option v-for="grower in growerOptions" v-bind:value="grower.email">
-                            {{ grower.email }} from {{ grower.address.country}}
+                    <select v-model="contractValues.selectedFarmer" :disabled="contractCreated">
+                        <option v-for="farmer in farmerOptions" v-bind:value="farmer.email">
+                            {{ farmer.email }} from {{ farmer.address.country}}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="field">
-                <label class="label">Select Importer</label>
+                <label class="label">Select Receiver</label>
                 <div class="select">
-                    <select v-model="contractValues.selectedImporter" :disabled="contractCreated">
-                        <option v-for="importer in importerOptions" v-bind:value="importer.email">
-                            {{ importer.email }} from {{ importer.address.country}}
+                    <select v-model="contractValues.selectedReceiver" :disabled="contractCreated">
+                        <option v-for="receiver in receiverOptions" v-bind:value="receiver.email">
+                            {{ receiver.email }} from {{ receiver.address.country}}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="field">
-                <label class="label">Select Shipper</label>
+                <label class="label">Select Trucker</label>
                 <div class="select">
-                    <select v-model="contractValues.selectedShipper" :disabled="contractCreated">
-                        <option v-for="shipper in shipperOptions" v-bind:value="shipper.email">
-                            {{ shipper.email }} from {{ shipper.address.country}}
+                    <select v-model="contractValues.selectedTrucker" :disabled="contractCreated">
+                        <option v-for="trucker in truckerOptions" v-bind:value="trucker.email">
+                            {{ trucker.email }} from {{ trucker.address.country}}
                         </option>
                     </select>
                 </div>
@@ -63,7 +63,7 @@
             <!--<div class="field">
                 <label class="label">Country</label>
                 <div class="control">
-                    <input class="input" type="text" placeholder="Country" v-model.lazy="shipper.country">
+                    <input class="input" type="text" placeholder="Country" v-model.lazy="trucker.country">
                 </div>
             </div>-->
             <button class="button is-primary" @click.prevent="createContract" :disabled="contractCreated">
@@ -78,14 +78,14 @@ const bc_api_url = "http://54.92.218.210:3000/api";
 export default {
     data () {
         return {
-            growerOptions: [],
-            importerOptions: [],
-            shipperOptions: [],
+            farmerOptions: [],
+            receiverOptions: [],
+            truckerOptions: [],
             contractValues:{
                 newContractID: "",
-                selectedGrower: {},
-                selectedImporter: {},
-                selectedShipper: {},
+                selectedFarmer: {},
+                selectedReceiver: {},
+                selectedTrucker: {},
                 setUnitPrice: 0,
                 dueDate: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
                 minTemperature: 2,
@@ -99,14 +99,14 @@ export default {
     },
     methods: {
         createContract(){
-            if(this.contractValues.selectedGrower.length > 0 && this.contractValues.selectedShipper.length > 0 && this.contractValues.selectedImporter.length > 0 && parseFloat(this.contractValues.setUnitPrice) > 0){
+            if(this.contractValues.selectedFarmer.length > 0 && this.contractValues.selectedTrucker.length > 0 && this.contractValues.selectedReceiver.length > 0 && parseFloat(this.contractValues.setUnitPrice) > 0){
                 this.isLoading = true;
                 this.$http.post(bc_api_url + '/Contract',{
                     "$class": "org.acme.shipping.perishable.Contract",
                     "contractId": this.contractValues.newContractID,
-                    "grower": "resource:org.acme.shipping.perishable.Grower#" + this.contractValues.selectedGrower,
-                    "shipper": "resource:org.acme.shipping.perishable.Shipper#" + this.contractValues.selectedShipper,
-                    "importer": "resource:org.acme.shipping.perishable.Importer#" + this.contractValues.selectedImporter,
+                    "farmer": "resource:org.acme.shipping.perishable.Farmer#" + this.contractValues.selectedFarmer,
+                    "trucker": "resource:org.acme.shipping.perishable.Trucker#" + this.contractValues.selectedTrucker,
+                    "receiver": "resource:org.acme.shipping.perishable.Receiver#" + this.contractValues.selectedReceiver,
                     "arrivalDateTime": this.contractValues.dueDate,
                     "unitPrice": parseFloat(this.contractValues.setUnitPrice),
                     "minTemperature": this.contractValues.minTemperature,
@@ -136,25 +136,25 @@ export default {
         }
     },
     created(){
-        this.$http.get(bc_api_url + '/Grower').then(function(data){
+        this.$http.get(bc_api_url + '/Farmer').then(function(data){
             /*console.log("$$$ this is the post data:");
             console.log(data.body);*/
-            this.growerOptions = data.body.slice(0,10);
+            this.farmerOptions = data.body.slice(0,10);
         });
-        this.$http.get(bc_api_url + '/Importer').then(function(data){
+        this.$http.get(bc_api_url + '/Receiver').then(function(data){
             /*console.log("$$$ this is the post data:");
             console.log(data.body);*/
-            this.importerOptions = data.body.slice(0,10);
+            this.receiverOptions = data.body.slice(0,10);
         });
-        this.$http.get(bc_api_url + '/Shipper').then(function(data){
+        this.$http.get(bc_api_url + '/Trucker').then(function(data){
             /*console.log("$$$ this is the post data:");
             console.log(data.body);*/
-            this.shipperOptions = data.body.slice(0,10);
+            this.truckerOptions = data.body.slice(0,10);
         });
         this.$http.get(bc_api_url + '/Contract').then(function(data){
             console.log("$$$ this is the get data for contracts:");
             //console.log(data.body);
-            //this.shipperOptions = data.body.slice(0,10);
+            //this.truckerOptions = data.body.slice(0,10);
             let allContracts = data.body;
             if(allContracts.length > 0){
                 let lastContract = allContracts[allContracts.length-1];
