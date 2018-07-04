@@ -74,7 +74,7 @@
 </template>
 
 <script>
-const bc_api_url = "http://localhost:3000/api";
+const bc_api_url = "http://104.196.163.139:3000/api";
 export default {
     data () {
         return {
