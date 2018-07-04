@@ -1,5 +1,4 @@
 <template>
-import Vue from 'vue';
     <div id="show-farmers">
         <section class="section">
             <div class="container">
