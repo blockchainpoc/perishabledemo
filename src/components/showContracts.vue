@@ -21,9 +21,9 @@
             <thead>
                 <tr>
                     <th>ContractID</th>
-                    <th>Grower</th>
-                    <th>Shipper</th>
-                    <th>Importer</th>
+                    <th>Farmer</th>
+                    <th>Trucker</th>
+                    <th>Receiver</th>
                     <th>Arrival - Date Time</th>
                     <th>Unit Price</th>
                     <th>Min Temperature</th>
