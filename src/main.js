@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
-Vue.use(Buefy)
+Vue.use(Buefy);
 
 Vue.filter('remove_farmer_class', function(value){
   return value.replace('resource:org.acme.shipping.perishable.Farmer#', '');
